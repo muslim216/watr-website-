@@ -1,0 +1,95 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens. PLACEHOLDER VALUES pending the published Figma Make URL —
+ * only --maroon is confirmed (read from the live site's --color-primary).
+ *
+ * The old site defined exactly three colours and used #f5f7f9, a cool blue-grey,
+ * as the surface behind warm cream photography and a maroon wordmark. The ramp
+ * below is warm-tinted so it sits under both the product photography and the
+ * maroon without fighting either.
+ */
+@theme {
+  --color-maroon: #751239;
+  --color-maroon-deep: #4e0c26;
+  --color-maroon-tint: #f3e6ea;
+
+  --color-gold: #b08d4f;
+  --color-gold-light: #d8bc85;
+
+  --color-cream: #f5efe6;
+  --color-bone: #faf7f2;
+  --color-ink: #1a1416;
+
+  --color-warm-50: #faf8f5;
+  --color-warm-100: #f2ede6;
+  --color-warm-200: #e5ddd2;
+  --color-warm-300: #cfc3b4;
+  --color-warm-500: #8d8074;
+  --color-warm-700: #4f463f;
+
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display-active), ui-serif, Georgia, serif;
+
+  --tracking-wordmark: 0.28em;
+}
+
+/*
+ * Display face swaps by script: a high-contrast serif for Latin, a calligraphic
+ * naskh for Arabic that answers the Diwani wordmark. Body text is one family
+ * across both scripts so metrics stay matched.
+ */
+:root {
+  --font-display-active: var(--font-display-latin);
+}
+
+:root:lang(ar),
+[dir='rtl'] {
+  --font-display-active: var(--font-display-arabic);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-bone);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-maroon);
+    outline-offset: 3px;
+  }
+
+  /* Arabic sits lower and needs more leading than the Latin default. */
+  [lang='ar'] p,
+  [lang='ar'] li {
+    line-height: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

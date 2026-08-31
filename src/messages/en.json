@@ -1,0 +1,54 @@
+{
+  "nav": {
+    "home": "Home",
+    "story": "The House",
+    "collection": "Collection",
+    "boutique": "Boutique",
+    "contact": "Contact",
+    "skipToContent": "Skip to content",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "locale": {
+    "switchTo": "العربية",
+    "label": "Switch language"
+  },
+  "product": {
+    "notes": "Notes",
+    "top": "Top",
+    "heart": "Heart",
+    "base": "Base",
+    "buy": "Order",
+    "buyAria": "Order {name} from the WATR store",
+    "extrait": "Extrait de Parfum",
+    "set": "Gift set",
+    "volume": "{ml} ml",
+    "viewAll": "View the collection"
+  },
+  "boutique": {
+    "title": "Boutique",
+    "directions": "Get directions",
+    "hours": "Opening hours",
+    "address": "Address",
+    "addressPending": "Address details are being confirmed — please call or message us."
+  },
+  "contact": {
+    "title": "Contact",
+    "intro": "We are glad to help with orders, gifting and anything else.",
+    "whatsapp": "Message on WhatsApp",
+    "call": "Call {number}",
+    "instagram": "Instagram"
+  },
+  "legal": {
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions",
+    "returns": "Return Policy",
+    "shipping": "Shipping Policy"
+  },
+  "footer": {
+    "rights": "All rights reserved",
+    "pages": "Pages",
+    "legalHeading": "Legal",
+    "social": "Follow"
+  }
+}
