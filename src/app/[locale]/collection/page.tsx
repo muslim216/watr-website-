@@ -5,6 +5,22 @@ import { ProductCard } from '@/components/product-card';
 import { products } from '@/content/products';
 import { COLLECTION_INTRO, COLLECTION_NAME } from '@/content/pages';
 import type { Locale } from '@/i18n/routing';
+import type { Metadata } from 'next';
+import { buildMetadata } from '@/lib/metadata';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return buildMetadata({
+    locale,
+    path: '/collection',
+    title: COLLECTION_NAME[locale],
+    description: COLLECTION_INTRO[locale],
+  });
+}
 
 export default async function CollectionPage({
   params,

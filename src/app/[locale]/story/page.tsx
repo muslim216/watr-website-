@@ -4,6 +4,22 @@ import { PageHeading, Prose, Section } from '@/components/prose';
 import { STORY_SECTIONS } from '@/content/pages';
 import { TAGLINE } from '@/content/brand';
 import type { Locale } from '@/i18n/routing';
+import type { Metadata } from 'next';
+import { buildMetadata } from '@/lib/metadata';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return buildMetadata({
+    locale,
+    path: '/story',
+    title: STORY_SECTIONS[0]!.heading[locale],
+    description: STORY_SECTIONS[0]!.body[locale][0]!,
+  });
+}
 
 export default async function StoryPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;

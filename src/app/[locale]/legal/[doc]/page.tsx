@@ -5,6 +5,8 @@ import { PageHeading, Prose, Section } from '@/components/prose';
 import { LEGAL_DOCUMENTS } from '@/content/legal';
 import { LEGAL_ITEMS, type LegalDoc } from '@/lib/nav';
 import { routing, type Locale } from '@/i18n/routing';
+import type { Metadata } from 'next';
+import { buildMetadata } from '@/lib/metadata';
 
 export function generateStaticParams() {
   return routing.locales.flatMap((locale) =>
@@ -14,6 +16,22 @@ export function generateStaticParams() {
 
 function isLegalDoc(value: string): value is LegalDoc {
   return LEGAL_ITEMS.some((item) => item.key === value);
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale; doc: string }>;
+}): Promise<Metadata> {
+  const { locale, doc } = await params;
+  if (!isLegalDoc(doc)) return {};
+  const document = LEGAL_DOCUMENTS[doc];
+  return buildMetadata({
+    locale,
+    path: `/legal/${doc}`,
+    title: document.title[locale],
+    description: document.body[locale][0]!,
+  });
 }
 
 export default async function LegalPage({

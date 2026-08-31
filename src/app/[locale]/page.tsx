@@ -5,13 +5,35 @@ import { Prose, Section } from '@/components/prose';
 import { ProductCard } from '@/components/product-card';
 import { products } from '@/content/products';
 import { COLLECTION_INTRO, COLLECTION_NAME, HOME_HEADING, HOME_MANIFESTO } from '@/content/pages';
-import { TAGLINE } from '@/content/brand';
+import { BRAND_NAME_FULL, TAGLINE } from '@/content/brand';
 import type { Locale } from '@/i18n/routing';
+import type { Metadata } from 'next';
+import { buildMetadata } from '@/lib/metadata';
+import { organisationSchema, JsonLd } from '@/lib/structured-data';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return buildMetadata({
+    locale,
+    path: '',
+    title: `${BRAND_NAME_FULL[locale]} — ${HOME_HEADING[locale]}`,
+    description: HOME_MANIFESTO[locale][0]!,
+  });
+}
 
 export default async function HomePage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  return <Home />;
+  return (
+    <>
+      <JsonLd data={organisationSchema(locale)} />
+      <Home />
+    </>
+  );
 }
 
 /** One home page. The old site had two, both titled "Home". */

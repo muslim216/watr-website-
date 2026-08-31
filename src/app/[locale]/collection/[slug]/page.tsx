@@ -7,11 +7,30 @@ import { getProduct, products } from '@/content/products';
 import { formatPrice } from '@/lib/storefront';
 import { routing, type Locale } from '@/i18n/routing';
 import type { Product } from '@/content/types';
+import type { Metadata } from 'next';
+import { buildMetadata } from '@/lib/metadata';
+import { productSchema, JsonLd } from '@/lib/structured-data';
 
 export function generateStaticParams() {
   return routing.locales.flatMap((locale) =>
     products.map((product) => ({ locale, slug: product.slug })),
   );
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale; slug: string }>;
+}): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const product = getProduct(slug);
+  if (!product) return {};
+  return buildMetadata({
+    locale,
+    path: `/collection/${slug}`,
+    title: product.name[locale],
+    description: product.summary[locale],
+  });
 }
 
 export default async function ProductPage({
@@ -25,7 +44,12 @@ export default async function ProductPage({
   const product = getProduct(slug);
   if (!product) notFound();
 
-  return <ProductDetail product={product} />;
+  return (
+    <>
+      <JsonLd data={productSchema(slug, locale)} />
+      <ProductDetail product={product} />
+    </>
+  );
 }
 
 function ProductDetail({ product }: { product: Product }) {

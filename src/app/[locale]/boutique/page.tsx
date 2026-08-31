@@ -4,11 +4,35 @@ import { PageHeading, Section } from '@/components/prose';
 import { BOUTIQUE } from '@/content/pages';
 import { PHONE_DISPLAY, PHONE_E164 } from '@/content/brand';
 import type { Locale } from '@/i18n/routing';
+import type { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
+import { buildMetadata } from '@/lib/metadata';
+import { localBusinessSchema, JsonLd } from '@/lib/structured-data';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'boutique' });
+  return buildMetadata({
+    locale,
+    path: '/boutique',
+    title: t('title'),
+    description: BOUTIQUE.name[locale],
+  });
+}
 
 export default async function BoutiquePage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  return <Boutique />;
+  return (
+    <>
+      <JsonLd data={localBusinessSchema(locale)} />
+      <Boutique />
+    </>
+  );
 }
 
 function Boutique() {

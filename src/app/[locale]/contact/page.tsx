@@ -3,6 +3,19 @@ import { setRequestLocale } from 'next-intl/server';
 import { PageHeading, Section } from '@/components/prose';
 import { INSTAGRAM_URL, PHONE_DISPLAY, PHONE_E164, WHATSAPP_URL } from '@/content/brand';
 import type { Locale } from '@/i18n/routing';
+import type { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
+import { buildMetadata } from '@/lib/metadata';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'contact' });
+  return buildMetadata({ locale, path: '/contact', title: t('title'), description: t('intro') });
+}
 
 export default async function ContactPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
